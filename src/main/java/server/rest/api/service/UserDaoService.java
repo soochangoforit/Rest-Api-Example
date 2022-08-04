@@ -8,17 +8,18 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+
 @Service
 public class UserDaoService {
 
     private static List<Member> users = new ArrayList<>();
 
-    private static int usersCount = 3;
+    private static Long usersCount = 3L;
 
     static {
-        users.add(new Member(1, "John", new Date() , "pass1", "123-45-6789"));
-        users.add(new Member(2, "Mary", new Date(), "pass2", "123-45-6789"));
-        users.add(new Member(3, "Mike", new Date(), "pass3", "123-45-6789"));
+        users.add(new Member(1L, "John", new Date() , "pass1", "123-45-6789"));
+        users.add(new Member(2L, "Mary", new Date(), "pass2", "123-45-6789"));
+        users.add(new Member(3L, "Mike", new Date(), "pass3", "123-45-6789"));
     }
 
     public List<Member> findAll() {
