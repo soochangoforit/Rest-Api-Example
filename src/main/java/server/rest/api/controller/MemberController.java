@@ -8,6 +8,7 @@ import server.rest.api.domain.Member;
 import server.rest.api.exception.UserNotFoundException;
 import server.rest.api.service.UserDaoService;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -38,13 +39,13 @@ public class MemberController {
         return member;
     }
 
-    @PostMapping("/members")
-    public ResponseEntity<Member> createUser(@RequestBody Member member) {
+    @PostMapping("/members") // valid 추가 -> valid 유효성 체크하면 400에러 발생 bad reqeust -> valid를 걸어놓으면 해당 controller method가 실행전에 유효성을 판단한다.
+    public ResponseEntity<Member> createUser(@Valid @RequestBody Member member) {
         Member saved = userDaoService.save(member);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest() // 현재 가지고 있는 request 값을 사용할 예정이다.
                 .path("/{id}") // 현재 request에다가 추가적으로 해당 path를 연결시켜준다.
-                .buildAndExpand(saved.getId()) // 연결시켜준 id값에 값을 할당시킨다.0
+                .buildAndExpand(saved.getId()) // 연결시켜준 id값에 값을 할당시킨다.
                 .toUri();// uri로 만든다.
 
         // 서버측에서 사용자의 고유 id에 대해서 성성되는것이고, 이것을 요청한 client에 path_varaiable로써 반환을 하면 상세 조회하기 위한

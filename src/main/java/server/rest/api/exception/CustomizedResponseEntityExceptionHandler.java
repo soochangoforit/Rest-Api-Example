@@ -1,7 +1,9 @@
 package server.rest.api.exception;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,6 +47,25 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND); // 404번 error
     }
+
+    /**
+     * 사용자가 잘못된 값을 넣어서 valid 문제가 생겼을때 처리 하는 메서드
+     */
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                                  HttpHeaders headers,
+                                                                  HttpStatus status,
+                                                                  WebRequest request) {
+
+        // 실제로 반환시 message를 ex.getMessage()하면 너무 길어져서 간단하게 저런식으로 작성하고 , 디테일한 에러 메시지는 3번째 파리미터에서
+        // 확인할 수 있도록 한다.
+        ExceptionResponse exceptionResponse =
+                new ExceptionResponse(new Date(), "Validation Failed", ex.getBindingResult().toString());
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+
+    }
+
 
 
 
