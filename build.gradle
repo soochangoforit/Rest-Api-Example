@@ -36,6 +36,15 @@ dependencies {
 
 	// for return xml data from header accept type
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
+
+	// swagger
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
+	// monitoring -> localhost:8080/actuator or localhost:8080/actuator/health
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	// hateous
+	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
 }
 
 tasks.named('test') {

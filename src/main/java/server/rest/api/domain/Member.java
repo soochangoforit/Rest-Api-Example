@@ -3,6 +3,8 @@ package server.rest.api.domain;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,11 +17,16 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter @Setter @NoArgsConstructor
 @JsonFilter("UserInfo") // client에게 민감한 정보는 반환하지 않기 위해서 json filter 사용 -> controller에서 만든 필터에서 적용할 이름으로 사용됨
+@ApiModel(description = "사용자 상세 정보를 위한 도메인 객체")
 public class Member {
 
+    /**
+     * 사용자 고유 id
+     */
     private Integer id;
 
     @Size(min = 2 , message = "Name must be at least 2 characters long")
+    @ApiModelProperty(notes = "사용자 이름")
     private String name;
 
     @Past // 과거 데이터만 허용

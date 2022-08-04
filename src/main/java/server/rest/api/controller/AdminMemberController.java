@@ -50,7 +50,10 @@ public class AdminMemberController {
         return mapping;
     }
 
-    @GetMapping("/v1/members/{id}")
+    //@GetMapping("/v1/members/{id}") -> url를 이용한 버전 관리
+    //@GetMapping(value="/members/{id}", params = "version=1") -> url Parameter를 이용한 버전 관리
+    //@GetMapping(value="/members/{id}" , headers = "X-API-VERSION=1") // header에서 필드가 X-API-VERSION인 것을 찾아서 버전을 추출한다.
+    @GetMapping(value="/members/{id}" , produces = "application/vnd.company.app-v1+json") // produces는 응답에 대한 응답 헤더를 설정한다.
     public MappingJacksonValue retrieveUserV1(@PathVariable int id) {
 
         Member member = userDaoService.findOne(id);
@@ -75,7 +78,10 @@ public class AdminMemberController {
         return mapping;
     }
 
-    @GetMapping("/v2/members/{id}")
+    //@GetMapping("/v2/members/{id}") -> url를 이용한 버전 관리
+    //@GetMapping(value="/members/{id}", params = "version=2") // url parameter를 이용한 api 버전 관리, 데이터 호출시 버전에 대한 정보를 더 줘야한다.  client에서
+    //@GetMapping(value="/members/{id}" , headers = "X-API-VERSION=2")
+    @GetMapping(value="/members/{id}" , produces = "application/vnd.company.app-v2+json") // produces는 client request header중에서 Accept에 있는걸 보고 알아서 매칭해서 해당 메서드를 연결시켜준다.
     public MappingJacksonValue retrieveUserV2(@PathVariable int id) {
 
         Member member = userDaoService.findOne(id);
